@@ -48,7 +48,7 @@ body{
   box-shadow: 1px 1px 5px #999;
 }
 .green{
-  color: green;
+  color: #28af28
 }
 .gameWord, .font{
   font-family: 'Bungee Inline', cursive;
