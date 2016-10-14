@@ -13,6 +13,8 @@
 
 
 <script type="text/javascript">
+
+//AJAX add user to game
   $('.addMember').on('click', function(){
     console.log("your butt is clicked");
     var newMember = $('#newMember').val()
@@ -26,18 +28,20 @@
     })
   })
 
-$('.removeMember').on('click', function(){
-  console.log("you remove button is clicked")
-  var removeMember = $('#removeMember').val()
-  $.ajax({
-    method:'PATCH',
-    url:'/game/<%=game.id%>/members',
-    contentType:'application/json',
-    data: JSON.stringify({email: removeMember})
-  }).done(function(data){
-    console.log(data);
+
+  // AJAX remove user from current game
+  $('.removeMember').on('click', function(){
+    console.log("you remove button is clicked")
+    var removeMember = $('#removeMember').val()
+    $.ajax({
+      method:'PATCH',
+      url:'/game/<%=game.id%>/members',
+      contentType:'application/json',
+      data: JSON.stringify({email: removeMember})
+    }).done(function(data){
+      console.log(data);
+    })
   })
-})
 
 
 
