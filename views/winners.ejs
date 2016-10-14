@@ -2,19 +2,15 @@
 <nav aria-label="...">
   <ul class="pager">
     <li id="allPhotos"><a href="/game/<%=game._id%>/library">All</a></li>
-    <li id="winners"><a href="/game/<%=game.id%>/winners">Winners</a></li>
+    <li id="winners"><a href="/winning_pics">Winners</a></li>
   </ul>
 </nav>
 
 
 <div class="photoArea">
-  <% pics.forEach(function(p) { %>
-    <% if(p && p.url) { %>
-    <img src="<%= p.url %>" id="<%=p._id %>">
-    <% } else { %>
-      "no image supplied"
-    <% } %>
-  <% }) %>
+  <%game.winners.forEach(function(w){%>
+    <img src= "<%=w.url%>" >
+    <%})%>
 
   <br>
 </div>

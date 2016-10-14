@@ -28,6 +28,8 @@ gamesRouter.get('/game/:id', function(req, res){
   Game.findById(req.params.id).populate("users rounds.picker winners.user").exec(function(err, game){
     if(err) throw err;
     console.log(game)
+    var currentRound = game.rounds[game.rounds.length-1]
+    var picsThisRound = currentRound.pics
     // logic for stopping player for selecting multiple pictures
     var picId = []
     var pics = game.rounds[game.rounds.length-1].pics
@@ -38,10 +40,10 @@ gamesRouter.get('/game/:id', function(req, res){
     console.log("Console log below:");
     console.log(game.rounds[game.rounds.length-1].pics);
     if(req.user.id == game.rounds[game.rounds.length-1].picker._id){
-      res.render('game-picker', {game: game, picId: picId})
+      res.render('game-picker', {game: game, picId: picId, picsThisRound})
       console.log();
     } else{
-      res.render('game-player', {game: game, picId: picId})
+      res.render('game-player', {game: game, picId: picId, picsThisRound})
       console.log();
     }
   })
@@ -99,7 +101,71 @@ gamesRouter.get('/game/:id/members', function(req, res){
   })
 })
 
+gamesRouter.patch('/game/:id/members', function(req,res){
+  Game.findById(req.params.id, function(err,game){
+    if (err) throw err
+    if(game){
+      User.findOne({"local.email": req.body.email}, function(err,user){
+        console.log(user);
+        if(!user){
+          res.json({message:"user not found"})
+        }
+        else{
+          game.users.push(user)
+          if(hasDuplicates(game.users)){
+            res.json({game: game, message:"user already been added"})
+          }
+          else{
+            game.save(function(err){
+              if(err) throw err
+              res.json(game)
+            })
+          }
+        }
+      })
+    }
+  })
+})
+// gamesRouter.get('/game/:id/member/:member', function(req, res){
+//   Game.findById(req.params.id, function(err, game){
+//     var currentRound = game.rounds[game.rounds.length-1]
+//     var picsThisRound = currentRound.pics
+//     res.json(picsThisRound)
+//   })
+// })
 
+gamesRouter.get('/game/:id/all', function(req, res){
+  Game.findById(req.params.id, function(err, game){
+    res.json(game)
+  })
+})
+gamesRouter.get('/game/:id/winners', function(req, res){
+  Game.findById(req.params.id, function(err, game){
+    res.render('winners', {game: game})
+  })
+})
+
+
+// gamesRouter.patch('/game/:id/members', function(req,res){
+//   Game.findById(req.params.id, function(err,game){
+//     if(err) throw err
+//     if(game){
+//       User.findOne({"local.email": req.body.email}, function(err,user){
+//         console.log(user);
+//         // if(!user){
+//         //   res.json({message:"user not found"})
+//         // }
+//         // else{
+//           game.users.removeMember(user)
+//             game.save(function(err){
+//               if(err) throw err
+//               res.json(game)
+//             // })
+//         }
+//       })
+//     }
+//   })
+// })
 
 
 module.exports = gamesRouter

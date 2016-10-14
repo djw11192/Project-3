@@ -30,6 +30,7 @@ body{
 }
 .word{
   width: 300px;
+
 }
 .findImg{
   height: 30px;
@@ -49,7 +50,7 @@ body{
 .green{
   color: green;
 }
-.gameWord{
+.gameWord .font{
   font-family: 'Bungee Inline', cursive;
 }
 
