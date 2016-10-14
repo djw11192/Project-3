@@ -52,13 +52,17 @@ body{
 }
 .gameWord, .font{
   font-family: 'Bungee Inline', cursive;
+  color: #000;
 }
 .titles {
   font-family: monospace;
+  color: #000;
 }
 .winTitle{
   font-family: 'Frijole', cursive;
+  color: #000;
 }
+
 
 
 

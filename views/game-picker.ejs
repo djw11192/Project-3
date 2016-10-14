@@ -93,8 +93,6 @@ var winnerIds =[];
   winnerIds.push('<%=w.user._id%>')
   <%})%>
 
-  console.log(winnerIds)
-  console.log('<%=game.users[0]._id%>')
 
   function countInArray(array, id) {
       var count = 0;
@@ -108,7 +106,6 @@ var winnerIds =[];
 
 $('.userName').each(function(user){
   var memberId = $(this).attr('data-id')
-  console.log("MEmber id: " + memberId)
   $(this).append('<br><span class="badge">'+countInArray(winnerIds, memberId)+'</span>')
 })
 
