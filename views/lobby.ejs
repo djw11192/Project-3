@@ -22,9 +22,13 @@
           <%= el.winners.users%>
           <% winners.push(el.winners.users)%>
 
-
           <li class="list-group-item">
-            <span id="<%= el._id%>" class="glyphicon glyphicon-remove icon-arrow-right remove-game" aria-hidden="true"></span> <h4><%= el.name %> | Round: <%= el.rounds.length%></h4>
+
+          <%if(el.rounds[0].picker == user.id){%>
+            <span id="<%= el._id%>" class="glyphicon glyphicon-remove icon-arrow-right remove-game" aria-hidden="true"></span>
+            <%}%>
+            <a href="/game/<%=el._id%>"><h4><%= el.name %> | Round: <%= el.rounds.length%></h4></a>
+
             <h5>Last move: <%= el.updatedAt%></h5>
             <hr />
             <p>
@@ -59,10 +63,13 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title" id="myModalLabel">Create New Game</h4>
+        <h4 class="modal-title" id="myModalLabel"><strong>Create New Game</strong></h4>
       </div>
       <div class="modal-body">
         <%# start form%>
+        <div class="col-md-12">
+
+
         <form action="/games/new" method="post">
         <%# game name text form%>
         <div class="form-group row">
@@ -111,6 +118,7 @@
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
         <button type="submit" class="btn btn-primary">Create Game</button>
         </form>
+      </div>
       </div>
     </div>
   </div>
