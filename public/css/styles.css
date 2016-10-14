@@ -6,6 +6,7 @@ body{
   background: white;
   border: 10px solid black;
   border-radius: 40px;
+  margin-top: 100px;
 }
 .userName{
   display: inline-block;
