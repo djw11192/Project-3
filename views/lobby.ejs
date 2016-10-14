@@ -25,7 +25,7 @@
           <li class="list-group-item">
 
           <%if(el.rounds[0].picker == user.id){%>
-            <span class="glyphicon glyphicon-remove icon-arrow-right remove-game" aria-hidden="true"></span>
+            <span id="<%= el._id%>" class="glyphicon glyphicon-remove icon-arrow-right remove-game" aria-hidden="true"></span>
             <%}%>
             <a href="/game/<%=el._id%>"><h4><%= el.name %> | Round: <%= el.rounds.length%></h4></a>
 
