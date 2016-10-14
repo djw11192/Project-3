@@ -24,7 +24,7 @@
 
 
           <li class="list-group-item">
-            <span id="remove-game" class="glyphicon glyphicon-remove icon-arrow-right" aria-hidden="true"></span><a href="/game/<%=el._id%>"> <h4><%= el.name %> | Round: <%= el.rounds.length%></h4></a>
+            <span id="<%= el._id%>" class="glyphicon glyphicon-remove icon-arrow-right remove-game" aria-hidden="true"></span> <h4><%= el.name %> | Round: <%= el.rounds.length%></h4>
             <h5>Last move: <%= el.updatedAt%></h5>
             <hr />
             <p>
@@ -120,5 +120,23 @@
 
 
 <script type="text/javascript">
+
+$('ul').on('click', '.remove-game', function() {
+  // id of Item we want to delete:
+  var gameId = $(this).attr('id')
+  console.log(gameId);
+  var gameToDelete = $(this).parent()
+  var opts = {
+    method: 'DELETE',
+    url: '/game/' + gameId
+  }
+  var cb = function(data) {
+  gameToDelete.remove()
+
+  }
+
+  $.ajax(opts).done(cb)
+
+})
 
 </script>
