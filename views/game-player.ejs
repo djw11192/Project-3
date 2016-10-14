@@ -2,8 +2,8 @@
 <%# Testing game with id: 57fd224005f68aaf34958380%>
 <% include game_nav %>
 <div class="container">
-  <h4 class="text-center"><%=game.name%></h4>
-  <h2 class="text-center"><%= game.rounds[game.rounds.length - 1].picker.local.name %> is the Picker</h2>
+  <h4 class="text-center titles"><%=game.name%></h4>
+  <h2 class="text-center titles"><%= game.rounds[game.rounds.length - 1].picker.local.name %> is the Picker</h2>
   <h1 class="text-center gameWord"><%=game.rounds[game.rounds.length - 1].word%></h1>
 
     <%# To drill into the rounds.pics and get the url. save for later%>
@@ -33,11 +33,13 @@
         String(currentUser._id) == String(picId[2]) ||
         String(currentUser._id) == String(picId[3]) ||
         String(currentUser._id) == String(picId[4])
-        ){}else {%>
+      ){%>
+          <h2 class="text-center">Waiting on other players...</h2>
+        <%}else {%>
           <%if(game.rounds.length>1){%>
             <% include results %>
           <%}%>
-          <div class="text-center">
+          <div class="text-center submit-photo-div">
             <button type="button" id="submit-photo-button" class="btn btn-primary btn-lg text-center" data-toggle="modal" data-target="#photoModal">
               Submit a Photo
             </button>
@@ -147,7 +149,7 @@ $('#gallery').on('click', '.photo', function(){
     // to slide modal up out of view
     $('#photoModal').modal('toggle')
     // remove submit button from view
-    $('#submit-photo-button').remove()
+    $('#submit-photo-div').text('<h2 class="text-center">Waiting on other players...</h2>')
     // add message to user that the system is waiting for other players to submit pictures
     $('h3').text('Waiting for other players to submit pictures.')
 

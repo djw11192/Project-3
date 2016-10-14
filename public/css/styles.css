@@ -50,8 +50,14 @@ body{
 .green{
   color: green;
 }
-.gameWord .font{
+.gameWord, .font{
   font-family: 'Bungee Inline', cursive;
+}
+.titles {
+  font-family: monospace;
+}
+.winTitle{
+  font-family: 'Frijole', cursive;
 }
 
 
