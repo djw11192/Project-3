@@ -149,7 +149,7 @@ $('#gallery').on('click', '.photo', function(){
     // to slide modal up out of view
     $('#photoModal').modal('toggle')
     // remove submit button from view
-    $('#submit-photo-div').text('<h2 class="text-center">Waiting on other players...</h2>')
+    $('.submit-photo-div').html('<h2 class="text-center">Waiting on other players...</h2>')
     // add message to user that the system is waiting for other players to submit pictures
     $('h3').text('Waiting for other players to submit pictures.')
 
