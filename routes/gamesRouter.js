@@ -101,6 +101,8 @@ gamesRouter.get('/game/:id/members', function(req, res){
   })
 })
 
+
+/// PATCH add members to current game.
 gamesRouter.patch('/game/:id/members', function(req,res){
   Game.findById(req.params.id, function(err,game){
     if (err) throw err
@@ -112,20 +114,49 @@ gamesRouter.patch('/game/:id/members', function(req,res){
         }
         else{
           game.users.push(user)
-          if(hasDuplicates(game.users)){
-            res.json({game: game, message:"user already been added"})
-          }
-          else{
+          // if(hasDuplicates(game.users)){
+          //   res.json({game: game, message:"user already been added"})
+          // }
+          // else{
             game.save(function(err){
               if(err) throw err
               res.json(game)
             })
-          }
+          // }
         }
       })
     }
   })
 })
+
+// PATCH remove user from current game
+gamesRouter.patch('/game/:id/members', function(req,res){
+  Game.findById(req.params.id, function(err,game){
+    if(err) throw err
+    if(game){
+      User.findOne({"local.email": req.body.email}, function(err,user){
+        console.log(user);
+        if(!user){
+          res.json({message:"user not found"})
+        }
+        else{
+          game.users.removeMember(user)
+            game.save(function(err){
+              if(err) throw err
+              res.json(game)
+            })
+        }
+      })
+    }
+  })
+})
+
+
+
+
+
+
+
 // gamesRouter.get('/game/:id/member/:member', function(req, res){
 //   Game.findById(req.params.id, function(err, game){
 //     var currentRound = game.rounds[game.rounds.length-1]
@@ -146,26 +177,9 @@ gamesRouter.get('/game/:id/winners', function(req, res){
 })
 
 
-// gamesRouter.patch('/game/:id/members', function(req,res){
-//   Game.findById(req.params.id, function(err,game){
-//     if(err) throw err
-//     if(game){
-//       User.findOne({"local.email": req.body.email}, function(err,user){
-//         console.log(user);
-//         // if(!user){
-//         //   res.json({message:"user not found"})
-//         // }
-//         // else{
-//           game.users.removeMember(user)
-//             game.save(function(err){
-//               if(err) throw err
-//               res.json(game)
-//             // })
-//         }
-//       })
-//     }
-//   })
-// })
+
+
+
 
 
 module.exports = gamesRouter
