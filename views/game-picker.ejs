@@ -13,7 +13,7 @@
 
   <div class="row text-center">
     <% game.users.forEach(function(el){ %>
-      <div class="userName">
+      <div class="userName" data-id="<%= el._id %>">
       <%picsThisRound.forEach(function(pic){%>
         <%if(el._id.toString() == pic.user.toString()){%>
           <span class="glyphicon glyphicon-ok green"></span><br>
@@ -85,6 +85,31 @@ $('#pickerPhotos').on('click', '.photosToPick', function(){
     window.location.href = '/game/<%=game._id%>'
   })
 
+})
+
+///////////Gets score///////////
+var winnerIds =[];
+<%game.winners.forEach(function(w){%>
+  winnerIds.push('<%=w.user._id%>')
+  <%})%>
+
+  console.log(winnerIds)
+  console.log('<%=game.users[0]._id%>')
+
+  function countInArray(array, id) {
+      var count = 0;
+      for (var i = 0; i < array.length; i++) {
+          if (array[i] === id) {
+              count++;
+          }
+      }
+      return count;
+  }
+
+$('.userName').each(function(user){
+  var memberId = $(this).attr('data-id')
+  console.log("MEmber id: " + memberId)
+  $(this).append('<br><span class="badge">'+countInArray(winnerIds, memberId)+'</span>')
 })
 
 </script>
