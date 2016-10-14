@@ -64,10 +64,10 @@ As a user, I can logout out of the website from the navigation bar.
 
 * Picture comments.
 
-* Be able to delete games started by the user.
+* Use sockets to have live gameplay.
 
 ## Feature Wish List
 
 * Live chat.
 
-* Notifications
+* Notifications.
