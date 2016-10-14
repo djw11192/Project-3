@@ -31,7 +31,6 @@ mongoose.connect(process.env.MONGO_URL, function(err){
 })
 
 app.use(logger('dev'))
-app.use(express.static(__dirname +'/public'))
 app.use(methodOverride('_method'))
 app.use(cookieParser())
 app.use(bodyParser.urlencoded({extended: true}))
