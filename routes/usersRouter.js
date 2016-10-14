@@ -65,6 +65,8 @@ User.find({'local.email': {
 
 
 
+
+
   // end of .post
 })
 
@@ -108,6 +110,15 @@ usersRouter.get('/profile/edit', function(req,res){
   res.render('editProfile', {message: req.flash('editProfileMessage')})
 })
 
+// usersRouter.patch('/game/:id/new_member', function(req, res){
+//   User.find({'local.email': req.body}, function(err, user){
+//     var newUser = user;
+//     Game.findById(req.params.id, function(err, game){
+//       game.users.push(newUser)
+//
+//     })
+//   })
+// })
 
 
 

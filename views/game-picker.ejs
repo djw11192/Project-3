@@ -43,6 +43,7 @@ console.log('pics uploaded: <%=game.rounds[game.rounds.length-1].pics.length%>')
 var players = <%=game.users.length-1%>
 var pics = <%=game.rounds[game.rounds.length-1].pics.length%>
 
+
 if(pics >= players){
   console.log("players equals pics")
   $('#pickerPhotos').html("")
