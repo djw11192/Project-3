@@ -9,7 +9,7 @@
     <%# To drill into the rounds.pics and get the url. save for later%>
    <%#= game.rounds[game.rounds.length - 1].pics[0].url %>
 
-  <div class="row text-center">
+  <div class="row text-center usersRow">
 
     <% game.users.forEach(function(el){ %>
       <div class="userName" data-id="<%= el._id %>">
@@ -157,6 +157,30 @@ $('#gallery').on('click', '.photo', function(){
   })
 })
 
+///////////Gets score///////////
+var winnerIds =[];
+<%game.winners.forEach(function(w){%>
+  winnerIds.push('<%=w.user._id%>')
+  <%})%>
+
+  console.log(winnerIds)
+  console.log('<%=game.users[0]._id%>')
+
+  function countInArray(array, id) {
+      var count = 0;
+      for (var i = 0; i < array.length; i++) {
+          if (array[i] === id) {
+              count++;
+          }
+      }
+      return count;
+  }
+
+$('.userName').each(function(user){
+  var memberId = $(this).attr('data-id')
+  console.log(memberId)
+  $(this).append('<br><span class="badge">'+countInArray(winnerIds, memberId)+'</span>')
+})
 
 
 

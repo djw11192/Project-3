@@ -66,7 +66,6 @@ User.find({'local.email': {
 
 
 
-
   // end of .post
 })
 
