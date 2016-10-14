@@ -1,15 +1,43 @@
 <h1 class="text-center">Members</h1>
-
-<button type="button"> Add Members</button> <br>
+<input id="newMember"type="text" name="name" value=""></input>
+<button class="addMember" type="button"> Add Members</button> <br>
+<button class="removeMember"type="button"> Kick Member Out</button> <br>
 <div class="text-center">
   <%game.users.forEach(function(u){%>
-    <div class="userName">
+    <div class="userName" user="<%=u.local._id%>">
       <%=u.local.name%>
     </div>
   <%})%>
 </div>
 
+
 <script type="text/javascript">
+  $('.addMember').on('click', function(){
+    console.log("your butt is clicked");
+    var newMember = $('#newMember').val()
+    $.ajax({
+      method: 'PATCH',
+      url: '/game/<%=game.id%>/members',
+      contentType: 'application/json',
+      data: JSON.stringify({email: newMember})
+    }).done(function(data){
+      console.log(data)
+    })
+  })
+
+$('.removeMember').on('click', function(){
+  console.log("you remove button is clicked")
+  var removeMember = $('#removeMember').val()
+  $.ajax({
+    method:'PATCH',
+    url:'/game/<%=game.id%>/members',
+    contentType:'application/json',
+    data: JSON.stringify({email: removeMember})
+  }).done(function(data){
+    console.log(data);
+  })
+})
+
 
 
 
