@@ -1,6 +1,6 @@
 var
-  express = require('express'),
-    app = express(),
+    express = require('express'),
+    app = express()
     ejs = require('ejs'),
     ejsLayouts = require('express-ejs-layouts'),
     mongoose = require('mongoose'),
@@ -18,7 +18,10 @@ var
     Game = require('./models/Game.js'),
     dotenv = require('dotenv').load({silent: true}),
     methodOverride = require('method-override'),
-    request = require('request')
+    request = require('request'),
+    http = require('http').Server(app);
+    socketIO = require('socket.io');
+    socketServer = socketIO(http);
 
 
 ///mongoose
@@ -85,8 +88,64 @@ app.get('/google/:word', function(req, res){
 })
 
 
+////////testing namespaces/////////
+app.get('/game/:id', function(req, res){
+  if(socketServer.nsps['/'+req.params.id.toString()]){
+
+  } else {
+    var nsp = socketServer.of('/'+(req.params.id).toString())
+
+    nsp.on('connection', function(socket){
+      nsp.emit('pageLoad', "Hello")
+
+
+      console.log('A client connected')
+      socket.on('reqCheckmark', function(data){
+        console.log("Kobe sucks")
+        nsp.emit('resCheckmark', data)
+      })
+      socket.on('pickerChose', function(data){
+        console.log(data)
+        nsp.emit('showModal', 'Show the results modal')
+      })
+      socket.on('showPhotos', function(data){
+        console.log(data.game)
+        Game.findById(data.game, function(err, game){
+          var currentRound = game.rounds[game.rounds.length - 1]
+          console.log(currentRound.pics)
+          nsp.emit('displayPhotos', currentRound.pics)
+        })
+      })
+    })
+  }
+  Game.findById(req.params.id).populate("users rounds.picker winners.user").exec(function(err, game){
+    if(err) throw err;
+    var currentRound = game.rounds[game.rounds.length-1]
+    var picsThisRound = currentRound.pics
+    // logic for stopping player for selecting multiple pictures
+    var picId = []
+    var pics = game.rounds[game.rounds.length-1].pics
+    for(i=0;i<pics.length; i++){
+      picId.push(pics[i].user)
+
+    }
+    console.log("Console log below:");
+    console.log(game.rounds[game.rounds.length-1].pics);
+    if(req.user.id == game.rounds[game.rounds.length-1].picker._id){
+      res.render('game-picker', {game: game, picId: picId, picsThisRound})
+      console.log();
+    } else{
+      res.render('game-player', {game: game, picId: picId, picsThisRound})
+      console.log();
+    }
+  })
+})
+
+
+
+
 
 /////////////Server/////////////////
-app.listen(port, function(){
+http.listen(port, function(){
 	console.log("Server running on port: ", port)
 })

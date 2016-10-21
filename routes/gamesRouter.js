@@ -24,30 +24,30 @@ gamesRouter.patch('/game/:id/library/newcomment', function(req, res){
   res.json(p)
 })
 
-gamesRouter.get('/game/:id', function(req, res){
-  Game.findById(req.params.id).populate("users rounds.picker winners.user").exec(function(err, game){
-    if(err) throw err;
-    console.log(game)
-    var currentRound = game.rounds[game.rounds.length-1]
-    var picsThisRound = currentRound.pics
-    // logic for stopping player for selecting multiple pictures
-    var picId = []
-    var pics = game.rounds[game.rounds.length-1].pics
-    for(i=0;i<pics.length; i++){
-      picId.push(pics[i].user)
-
-    }
-    console.log("Console log below:");
-    console.log(game.rounds[game.rounds.length-1].pics);
-    if(req.user.id == game.rounds[game.rounds.length-1].picker._id){
-      res.render('game-picker', {game: game, picId: picId, picsThisRound})
-      console.log();
-    } else{
-      res.render('game-player', {game: game, picId: picId, picsThisRound})
-      console.log();
-    }
-  })
-})
+// gamesRouter.get('/game/:id', function(req, res){
+//   Game.findById(req.params.id).populate("users rounds.picker winners.user").exec(function(err, game){
+//     if(err) throw err;
+//     console.log(game)
+//     var currentRound = game.rounds[game.rounds.length-1]
+//     var picsThisRound = currentRound.pics
+//     // logic for stopping player for selecting multiple pictures
+//     var picId = []
+//     var pics = game.rounds[game.rounds.length-1].pics
+//     for(i=0;i<pics.length; i++){
+//       picId.push(pics[i].user)
+//
+//     }
+//     console.log("Console log below:");
+//     console.log(game.rounds[game.rounds.length-1].pics);
+//     if(req.user.id == game.rounds[game.rounds.length-1].picker._id){
+//       res.render('game-picker', {game: game, picId: picId, picsThisRound})
+//       console.log();
+//     } else{
+//       res.render('game-player', {game: game, picId: picId, picsThisRound})
+//       console.log();
+//     }
+//   })
+// })
 
 gamesRouter.delete('/game/:id', function(req, res) {
   Game.findByIdAndRemove(req.params.id, function(err, game) {
