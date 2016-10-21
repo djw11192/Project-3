@@ -44,9 +44,12 @@
     console.log(data)
   })
 
-  socket.on('resCheckmark', function(data){
-    console.log(data)
-    $('.userName[data-id=' + data.user + ']').prepend('<span class="glyphicon glyphicon-ok green"></span><br>')
+
+  socket.on('displayPhotos', function(data){
+    data.forEach(function(el){
+      console.log(el.url)
+      $('#pickerPhotos').html('<img class="photosToPick" user="'+el.user+'" src="'+ el.url+ '">')
+    })
   })
 
 /////////////David's photo logic///////
@@ -54,7 +57,6 @@ console.log('Players: <%=game.users.length-1%>')
 console.log('pics uploaded: <%=game.rounds[game.rounds.length-1].pics.length%>')
 var players = <%=game.users.length-1%>
 var pics = <%=game.rounds[game.rounds.length-1].pics.length%>
-
 
 if(pics >= players){
   console.log("players equals pics")
@@ -66,9 +68,27 @@ if(pics >= players){
     data.forEach(function(el){
       console.log(el.url)
       $('#pickerPhotos').append('<img class="photosToPick" user="'+el.user+'" src="'+ el.url+ '">')
+      })
     })
-  })
-}
+  }
+
+socket.on('resCheckmark', function(data){
+  console.log(data)
+  $('.userName[data-id=' + data.user + ']').prepend('<span class="glyphicon glyphicon-ok green"></span><br>')
+if(pics >= players){
+  console.log("players equals pics")
+  $('#pickerPhotos').html("")
+  $.ajax({
+    method: 'GET',
+    url: '/game/<%= game._id %>/photos',
+  }).done(function(data){
+    data.forEach(function(el){
+      console.log(el.url)
+      $('#pickerPhotos').text('<img class="photosToPick" user="'+el.user+'" src="'+ el.url+ '">')
+      })
+    })
+  }
+})
 
 
 
@@ -96,7 +116,7 @@ $('#pickerPhotos').on('click', '.photosToPick', function(){
     console.log("Winner is: "+data)
     window.location.href = '/game/<%=game._id%>'
   })
-
+  socket.emit("pickerChose", "Sending request to show results")
 })
 
 ///////////Gets score///////////

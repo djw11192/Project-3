@@ -34,7 +34,7 @@
         String(currentUser._id) == String(picId[3]) ||
         String(currentUser._id) == String(picId[4])
       ){%>
-          <h2 class="text-center">Waiting on other players...</h2>
+          <h2 class="playerContent text-center">Waiting on other players...</h2>
         <%}else {%>
           <%if(game.rounds.length>1){%>
             <% include results %>
@@ -97,11 +97,16 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.5.0/socket.io.js" charset="utf-8"></script>
 <script type="text/javascript">
-
+  var players = <%=game.users.length-1%>
+  var pics = <%=game.rounds[game.rounds.length-1].pics.length%>
   var socket = io('/'+ '<%=game.id%>')
 
-  socket.on('testRes', function(data){
+  socket.on('pageLoad', function(data){
     console.log(data)
+  })
+  socket.on('showModal', function(data){
+    console.log(data)
+    $('.playerContent').text('');
   })
 
 $.ajax({
@@ -152,6 +157,8 @@ $('#gallery').on('click', '.photo', function(){
     console.log(data)
     var currentRound = data.rounds[data.rounds.length - 1]
     var lastPic = currentRound.pics[currentRound.pics.length - 1]
+    var players = <%=game.users.length-1%>
+    var pics = <%=game.rounds[game.rounds.length-1].pics.length%>
 
     console.log(lastPic.user)
 
@@ -168,6 +175,7 @@ $('#gallery').on('click', '.photo', function(){
     // add message to user that the system is waiting for other players to submit pictures
     $('h3').text('Waiting for other players to submit pictures.')
 
+    socket.emit('showPhotos', {game: '<%=game.id%>'})
 
   })
 })

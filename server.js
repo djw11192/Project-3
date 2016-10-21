@@ -96,12 +96,25 @@ app.get('/game/:id', function(req, res){
     var nsp = socketServer.of('/'+(req.params.id).toString())
 
     nsp.on('connection', function(socket){
-      nsp.emit('testRes', "Hello")
+      nsp.emit('pageLoad', "Hello")
+
 
       console.log('A client connected')
       socket.on('reqCheckmark', function(data){
         console.log("Kobe sucks")
         nsp.emit('resCheckmark', data)
+      })
+      socket.on('pickerChose', function(data){
+        console.log(data)
+        nsp.emit('showModal', 'Show the results modal')
+      })
+      socket.on('showPhotos', function(data){
+        console.log(data.game)
+        Game.findById(data.game, function(err, game){
+          var currentRound = game.rounds[game.rounds.length - 1]
+          console.log(currentRound.pics)
+          nsp.emit('displayPhotos', currentRound.pics)
+        })
       })
     })
   }
