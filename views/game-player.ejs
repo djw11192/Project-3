@@ -107,7 +107,12 @@
   socket.on('showModal', function(data){
     console.log(data)
     $('.playerContent').text('');
+    reload();
   })
+
+function reload(){
+  window.location.href = '/game/<%=game._id%>';
+}
 
 $.ajax({
   method: 'GET',

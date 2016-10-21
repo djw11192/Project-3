@@ -1,5 +1,8 @@
 <%# View that the Picker sees during the game%>
 <% include game_nav %>
+<%if(game.rounds.length>1){%>
+  <% include results %>
+<%}%>
 <div class="container">
   <h4 class="text-center titles"><%=game.name%></h4>
   <h2 id="picker" class="text-center titles">You are the Picker</h2>
@@ -106,17 +109,23 @@ $('#pickerPhotos').on('click', '.photosToPick', function(){
     data: JSON.stringify(results)
   }).done(function(results){
     console.log(results)
+
+    $.ajax({
+      method: 'PATCH',
+      url: '/game/<%=game._id%>/new_round',
+      contentType: 'application/json',
+      data: JSON.stringify(data)
+    }).done(function(data){
+      console.log("Winner is: "+data)
+      window.location.href = '/game/<%=game._id%>'
+
+      socket.emit("pickerChose", "Sending request to show results")
+    })
+
+
   })
-  $.ajax({
-    method: 'PATCH',
-    url: '/game/<%=game._id%>/new_round',
-    contentType: 'application/json',
-    data: JSON.stringify(data)
-  }).done(function(data){
-    console.log("Winner is: "+data)
-    window.location.href = '/game/<%=game._id%>'
-  })
-  socket.emit("pickerChose", "Sending request to show results")
+
+
 })
 
 ///////////Gets score///////////
