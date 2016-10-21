@@ -35,7 +35,19 @@
 
 
 <%# ajax pull for word generator api%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.5.0/socket.io.js" charset="utf-8"></script>
 <script type="text/javascript">
+
+  var socket = io('/'+ '<%=game.id%>')
+
+  socket.on('testRes', function(data){
+    console.log(data)
+  })
+
+  socket.on('resCheckmark', function(data){
+    console.log(data)
+    $('.userName[data-id=' + data.user + ']').prepend('<span class="glyphicon glyphicon-ok green"></span><br>')
+  })
 
 /////////////David's photo logic///////
 console.log('Players: <%=game.users.length-1%>')

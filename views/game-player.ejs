@@ -94,7 +94,15 @@
       </div>
       <div id="modalBottom"></div>
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.5.0/socket.io.js" charset="utf-8"></script>
 <script type="text/javascript">
+
+  var socket = io('/'+ '<%=game.id%>')
+
+  socket.on('testRes', function(data){
+    console.log(data)
+  })
 
 $.ajax({
   method: 'GET',
@@ -144,8 +152,15 @@ $('#gallery').on('click', '.photo', function(){
     console.log(data)
     var currentRound = data.rounds[data.rounds.length - 1]
     var lastPic = currentRound.pics[currentRound.pics.length - 1]
-    // $('.userName[data-id=' + lastPic.user + '] span').addClass('green')
-      $('.userName[data-id=' + lastPic.user + ']').prepend('<span class="glyphicon glyphicon-ok green"></span><br>')
+
+    console.log(lastPic.user)
+
+    socket.emit('reqCheckmark', {user: lastPic.user})
+    socket.on('resCheckmark', function(data){
+      console.log(data)
+      $('.userName[data-id=' + data.user + ']').prepend('<span class="glyphicon glyphicon-ok green"></span><br>')
+    })
+
     // to slide modal up out of view
     $('#photoModal').modal('toggle')
     // remove submit button from view
