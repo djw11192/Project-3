@@ -77,7 +77,9 @@ if(pics >= players){
   })
 }
 
-socket.on('resCheckmark', function(data){
+socket.on('resCheckmark', function(user){
+  $('.userName[data-id=' + user.user + ']').prepend('<span class="glyphicon glyphicon-ok green"></span><br>')
+
   $.ajax({
     method: 'GET',
     url: '/game/<%=game.id%>/current'
@@ -86,15 +88,14 @@ socket.on('resCheckmark', function(data){
     pics = data.rounds[data.rounds.length-1].pics.length
 
   console.log(data)
-  $('.userName[data-id=' + data.user + ']').prepend('<span class="glyphicon glyphicon-ok green"></span><br>')
   if(pics >= players){
     console.log("players equals pics")
     $('#pickerPhotos').html("")
     $.ajax({
       method: 'GET',
       url: '/game/<%= game._id %>/photos',
-    }).done(function(data){
-      data.forEach(function(el){
+    }).done(function(pics){
+      pics.forEach(function(el){
         console.log(el.url)
         $('#pickerPhotos').html('<img class="photosToPick" user="'+el.user+'" src="'+ el.url+ '">')
         })
