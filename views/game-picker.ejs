@@ -50,12 +50,13 @@ var pics = <%=game.rounds[game.rounds.length-1].pics.length%>
   })
 
 
-  socket.on('displayPhotos', function(data){
-    data.forEach(function(el){
-      console.log(el.url)
-      $('#pickerPhotos').html('<img class="photosToPick" user="'+el.user+'" src="'+ el.url+ '">')
-    })
-  })
+  // socket.on('displayPhotos', function(data){
+  //
+  //     data.forEach(function(el){
+  //       console.log(el.url)
+  //       $('#pickerPhotos').html('<img class="photosToPick" user="'+el.user+'" src="'+ el.url+ '">')
+  //     })
+  // })
 
 /////////////David's photo logic///////
 console.log('Players: <%=game.users.length-1%>')
@@ -72,26 +73,34 @@ if(pics >= players){
     data.forEach(function(el){
       console.log(el.url)
       $('#pickerPhotos').append('<img class="photosToPick" user="'+el.user+'" src="'+ el.url+ '">')
-      })
     })
-  }
+  })
+}
 
 socket.on('resCheckmark', function(data){
-  console.log(data)
-  $('.userName[data-id=' + data.user + ']').prepend('<span class="glyphicon glyphicon-ok green"></span><br>')
-if(pics >= players){
-  console.log("players equals pics")
-  $('#pickerPhotos').html("")
   $.ajax({
     method: 'GET',
-    url: '/game/<%= game._id %>/photos',
+    url: '/game/<%=game.id%>/current'
   }).done(function(data){
-    data.forEach(function(el){
-      console.log(el.url)
-      $('#pickerPhotos').text('<img class="photosToPick" user="'+el.user+'" src="'+ el.url+ '">')
+    players = data.users.length-1
+    pics = data.rounds[data.rounds.length-1].pics.length
+
+  console.log(data)
+  $('.userName[data-id=' + data.user + ']').prepend('<span class="glyphicon glyphicon-ok green"></span><br>')
+  if(pics >= players){
+    console.log("players equals pics")
+    $('#pickerPhotos').html("")
+    $.ajax({
+      method: 'GET',
+      url: '/game/<%= game._id %>/photos',
+    }).done(function(data){
+      data.forEach(function(el){
+        console.log(el.url)
+        $('#pickerPhotos').html('<img class="photosToPick" user="'+el.user+'" src="'+ el.url+ '">')
+        })
       })
-    })
-  }
+    }
+  })
 })
 
 

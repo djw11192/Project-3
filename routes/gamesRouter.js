@@ -49,6 +49,12 @@ gamesRouter.patch('/game/:id/library/newcomment', function(req, res){
 //   })
 // })
 
+gamesRouter.get('/game/:id/current', function(req, res){
+  Game.findById(req.params.id, function(err, game){
+    res.json(game)
+  })
+})
+
 gamesRouter.delete('/game/:id', function(req, res) {
   Game.findByIdAndRemove(req.params.id, function(err, game) {
     if(game) return res.json({message: "Game Deleted", success: true})
