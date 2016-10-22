@@ -83,11 +83,11 @@ socket.on('resCheckmark', function(user){
   $.ajax({
     method: 'GET',
     url: '/game/<%=game.id%>/current'
-  }).done(function(data){
-    players = data.users.length-1
-    pics = data.rounds[data.rounds.length-1].pics.length
+  }).done(function(game){
+    players = game.users.length-1
+    pics = game.rounds[game.rounds.length-1].pics.length
 
-  console.log(data)
+  console.log(game)
   if(pics >= players){
     console.log("players equals pics")
     $('#pickerPhotos').html("")
@@ -95,9 +95,10 @@ socket.on('resCheckmark', function(user){
       method: 'GET',
       url: '/game/<%= game._id %>/photos',
     }).done(function(pics){
+      $('#pickerPhotos').html("")
       pics.forEach(function(el){
         console.log(el.url)
-        $('#pickerPhotos').html('<img class="photosToPick" user="'+el.user+'" src="'+ el.url+ '">')
+        $('#pickerPhotos').append('<img class="photosToPick" user="'+el.user+'" src="'+ el.url+ '">')
         })
       })
     }
