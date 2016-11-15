@@ -1,5 +1,5 @@
 body{
-  background: url('/images/background-gradient.jpg');
+  background: url('/images/background-gradient.jpg') ;
   background-size: cover;
 }
 .login{
