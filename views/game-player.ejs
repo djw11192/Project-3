@@ -162,7 +162,7 @@ $('#gallery').on('click', '.photo', function(){
     console.log(data)
     var currentRound = data.rounds[data.rounds.length - 1]
     var picsL = <%=game.rounds[game.rounds.length-1].pics.length%>
-    var lastPic = currentRound.picsL[currentRound.pics.length - 1]
+    var lastPic = currentRound.pics[currentRound.pics.length - 1]
     var players = <%=game.users.length-1%>
 
 
