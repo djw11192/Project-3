@@ -12,6 +12,8 @@ Visit [A Word is Worth One Picture ](https://infinite-eyrie-42957.herokuapp.com 
 
 Visit [A Word is Worth One Picture GitHub ](https://github.com/djw11192/Project-3) to download the app to your local machine.
 
+Or watch this [video](https://www.youtube.com/watch?v=Gn8TUdqcdBs&feature=youtu.be) to see a sample game with further explanations.
+
 This app was built with Node.js.
 
 ### Local installation instructions
